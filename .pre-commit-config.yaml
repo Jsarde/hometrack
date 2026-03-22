@@ -1,0 +1,60 @@
+# Pre-commit hook configuration.
+# Install: uv run pre-commit install
+# Run manually: uv run pre-commit run --all-files
+# Docs: https://pre-commit.com
+
+default_language_version:
+  python: python3.12
+
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v6.0.0
+    hooks:
+      # Block files larger than 1 MB from being committed.
+      - id: check-added-large-files
+        args: [--maxkb=1024]
+
+      # Check whether files parse as valid python.
+      - id: check-ast
+
+      # Block commits that contain unresolved merge conflict markers.
+      - id: check-merge-conflict
+
+      # Validate pyproject.toml and any other TOML files.
+      - id: check-toml
+
+      # Validate all YAML files (workflows, pre-commit config, compose).
+      - id: check-yaml
+
+      # Ensure every text file ends with exactly one newline.
+      - id: end-of-file-fixer
+
+      # Strip trailing whitespace from all text files.
+      - id: trailing-whitespace
+
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.15.7
+    hooks:
+      # Formatter
+      - id: ruff-format
+        name: "ruff: format"
+        types_or: [python, pyi]
+
+      # Linter
+      - id: ruff
+        name: "ruff: lint"
+        args: [--fix, --exit-non-zero-on-fix]
+        types_or: [python, pyi]
+
+  - repo: local
+    hooks:
+      # Static type checker
+      - id: ty
+        name: "ty: type check"
+        language: system
+        # Run via uv so it uses the project's pinned version.
+        entry: uv run ty check hometrack/
+        pass_filenames: false
+        types: [python]
+        # Only run when Python files inside hometrack/ change.
+        files: ^hometrack/
