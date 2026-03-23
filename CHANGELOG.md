@@ -13,5 +13,5 @@ Versioning: [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 - Project scaffolding: `pyproject.toml`, `uv` dependency management
 - Code quality toolchain: Ruff (lint + format), ty (type checker), pre-commit hooks
 - Project documentation: `README.md`, `CONTRIBUTING.md`, `SECURITY.md`
-- GitHub Actions CI workflow (lint, typecheck, test, security jobs)
+- GitHub Actions CI and Release workflows
 - Dependabot configuration for automated dependency updates
